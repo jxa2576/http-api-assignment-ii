@@ -13,6 +13,7 @@ const respondJSONMeta = (request, response, status) => {
 
 const getUsers = (request, response) => {
   const responseJSON = {
+    message: 'Fetched users',
     users,
   };
 

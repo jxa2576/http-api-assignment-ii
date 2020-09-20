@@ -10,14 +10,14 @@
       if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json'){
         const obj = JSON.parse(xhr.response);
 
-        console.dir(obj.message);
-
-        if(obj.message){
+        if(obj.message != 'Fetched users'){
           content.innerHTML += `<p>Message: ${obj.message}</p>`;
-          console.dir(obj);
+          //console.dir(obj);
         } else {
-          content.innerHTML += `<p>${xhr.response}</p>`
-          console.dir(xhr.response);
+          const recievedUsers = JSON.stringify(obj.users);
+          content.innerHTML += `<p>${recievedUsers}</p>`
+          //console.dir(obj.message);
+          //console.dir(obj.users);
         }
       } else {
         content.innerHTML += `<p>Meta Data Recieved</p>`;
