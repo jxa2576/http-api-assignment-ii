@@ -16,7 +16,7 @@ const getUsers = (request, response) => {
     users,
   };
 
-  respondJSON(request, response, 200, responseJSON);
+  return respondJSON(request, response, 200, responseJSON);
 };
 
 const addUser = (request, response, body) => {
@@ -24,14 +24,14 @@ const addUser = (request, response, body) => {
     message: 'Name and age are both required',
   };
 
-  if(!body.name || !body.age){
+  if (!body.name || !body.age) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
 
   let responseCode = 201;
 
-  if(users[body.name]){
+  if (users[body.name]) {
     responseCode = 204;
   } else {
     users[body.name] = {};
@@ -40,16 +40,29 @@ const addUser = (request, response, body) => {
 
   users[body.name].age = body.age;
 
-  if(responseCode === 201){
+  if (responseCode === 201) {
     responseJSON.message = 'Created Successfully';
     return respondJSON(request, response, responseCode, responseJSON);
   }
 
   return respondJSONMeta(request, response, responseCode);
+};
 
+const notFound = (request, response, method) => {
+  const responseJSON = {
+    message: 'The page you are looking for was not found.',
+    id: 'notFound',
+  };
+  const responseCode = 404;
+
+  if (method === 'GET') {
+    return respondJSON(request, response, responseCode, responseJSON);
+  }
+  return respondJSONMeta(request, response, responseCode);
 };
 
 module.exports = {
   getUsers,
   addUser,
+  notFound,
 };
